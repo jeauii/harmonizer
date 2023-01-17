@@ -137,6 +137,8 @@
                         <borrowed />
                         <chord_duration>4</chord_duration>
                         <start_measure>8</start_measure>
+                        <start_beat>1</start_beat>
+                        <start_beat_abs>28</start_beat_abs>
                     </chord>
                 </chords>
             </segment>
