@@ -2,11 +2,13 @@ import sys
 import numpy as np
 import xml.etree.ElementTree as ET
 
-SEQ_LEN = 32
+INPUT_LEN = 32
+VOCAB_PATH = 'vocab/chords.txt'
 
 SCALE_NOTES = [0, 2, 4, 5, 7, 9, 11]
 SCALE_QUALITY = ['', 'm', 'm', '', '', 'm', 'dim']
 NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+
 
 def parse_note(node):
     if node.findtext('isRest') == '1':
@@ -124,7 +126,7 @@ def main():
 
             for i, group in enumerate(notes):
                 duration = np.zeros(12)
-                sequence = np.zeros(SEQ_LEN)
+                sequence = np.zeros(INPUT_LEN)
                 for note, note_length in group:
                     if note is not None:
                         duration[note] += note_length
@@ -133,14 +135,9 @@ def main():
                 y.append(sequence)
                 z.append(chords[i])
     
-    np.savez_compressed(sys.argv[1], x=x, y=y, z=z, v=vocab)
+    np.savetxt(VOCAB_PATH, vocab, fmt='%s')
 
-    print(vocab)
-    print(len(x), len(y), len(z))
-    print(x[120], y[120], z[120])
-    print(x[121], y[121], z[121])
-    print(x[122], y[122], z[122])
-    print(y[120:125])
+    np.savez_compressed(sys.argv[1], x=x, y=y, z=z)
 
 if __name__ == '__main__':
     main()
